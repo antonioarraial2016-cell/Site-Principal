@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mensagem enviada — O3-BioTec</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="logo.jpg" type="image/jpeg">
+  <style>
+    .thanks-page {
+      min-height: 100vh;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .thanks-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 60% at 50% 50%, rgba(0,169,157,.15) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 80% 20%, rgba(141,198,63,.1) 0%, transparent 55%);
+    }
+    .thanks-box {
+      position: relative; z-index: 2;
+      max-width: 520px;
+    }
+    .thanks-icon {
+      width: 88px; height: 88px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(141,198,63,.2), rgba(0,169,157,.25));
+      border: 2px solid rgba(0,169,157,.4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 40px;
+      margin: 0 auto 28px;
+      animation: panelPulse 4s ease-in-out infinite;
+    }
+    .thanks-title {
+      font-size: 36px; font-weight: 700;
+      color: var(--white); margin-bottom: 16px;
+    }
+    .thanks-sub {
+      font-size: 17px; color: rgba(255,255,255,.65);
+      line-height: 1.65; margin-bottom: 36px;
+    }
+  </style>
+</head>
+<body>
+<div class="thanks-page">
+  <div class="thanks-bg"></div>
+  <div class="thanks-box">
+    <div class="thanks-icon">✅</div>
+    <h1 class="thanks-title">Mensagem enviada!</h1>
+    <p class="thanks-sub">Obrigado pelo contato. Nossa equipe retornará em até <strong style="color:var(--lime-light)">24 horas úteis</strong>.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+      <a href="index.html" class="btn btn-primary">← Voltar ao início</a>
+      <a href="ferramentas.html" class="btn btn-outline-white">Ver Ferramentas</a>
+    </div>
+  </div>
+</div>
+<script src="main.js"></script>
+</body>
+</html>

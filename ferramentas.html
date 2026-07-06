@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ferramentas — O3-BioTec</title>
+  <meta name="description" content="Ferramentas digitais gratuitas da O3-BioTec: BioNutri Mar — banco de dados de macronutrientes de organismos marinhos brasileiros.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="logo.jpg" type="image/jpeg">
+  <style>
+    .ferr-section { background: var(--navy); min-height: 100vh; }
+    .ferr-intro {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+      padding: 140px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ferr-intro-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 70% at 80% 40%, rgba(0,169,157,.18) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 60% at 20% 80%, rgba(141,198,63,.12) 0%, transparent 50%);
+    }
+    .ferr-intro-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,169,157,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,169,157,.05) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+    .ferr-card-main {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(0,169,157,.25);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      transition: border-color .3s, box-shadow .3s;
+    }
+    .ferr-card-main:hover { border-color: var(--teal); box-shadow: 0 0 60px rgba(0,169,157,.15); }
+    .ferr-card-header {
+      background: linear-gradient(135deg, rgba(0,169,157,.15), rgba(141,198,63,.1));
+      border-bottom: 1px solid rgba(0,169,157,.2);
+      padding: 40px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .ferr-card-body { padding: 48px; }
+    .ferr-feature-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      background: rgba(255,255,255,.06);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin: 32px 0;
+    }
+    .ferr-feature {
+      padding: 24px 20px;
+      background: rgba(255,255,255,.03);
+      text-align: center;
+    }
+    .ferr-feature-icon { font-size: 28px; margin-bottom: 10px; }
+    .ferr-feature-label { font-size: 13px; color: rgba(255,255,255,.55); }
+    .ferr-feature-val { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; color: var(--lime-light); }
+    .ferr-groups {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .ferr-group {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius-lg);
+      padding: 20px 16px;
+      text-align: center;
+      transition: border-color .2s, background .2s;
+    }
+    .ferr-group:hover { border-color: var(--teal); background: rgba(0,169,157,.08); }
+    .ferr-group-icon { font-size: 28px; margin-bottom: 8px; }
+    .ferr-group-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,.7); margin-bottom: 4px; }
+    .ferr-group-count { font-size: 22px; font-weight: 700; font-family: 'Space Grotesk', sans-serif; color: var(--lime-light); }
+    .sources-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 40px; }
+    .source-badge {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      text-align: center;
+    }
+    .source-badge-name { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 700; color: var(--teal-light); }
+    .source-badge-desc { font-size: 12px; color: rgba(255,255,255,.4); margin-top: 4px; }
+    .btn-access {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 36px;
+      border-radius: var(--radius-full);
+      background: linear-gradient(135deg, var(--lime), var(--teal));
+      color: var(--white);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: .03em;
+      transition: box-shadow .2s, transform .2s;
+      box-shadow: 0 4px 24px rgba(0,169,157,.3);
+    }
+    .btn-access:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(0,169,157,.45); }
+    .coming-soon {
+      background: rgba(255,255,255,.03);
+      border: 1px dashed rgba(255,255,255,.12);
+      border-radius: var(--radius-xl);
+      padding: 48px;
+      text-align: center;
+      margin-top: 28px;
+    }
+    .coming-soon-icon { font-size: 48px; margin-bottom: 16px; }
+    .coming-soon-title { font-size: 20px; font-weight: 700; color: rgba(255,255,255,.5); margin-bottom: 8px; }
+    .coming-soon-text { font-size: 14px; color: rgba(255,255,255,.3); }
+    @media (max-width: 900px) {
+      .ferr-feature-grid { grid-template-columns: repeat(2,1fr); }
+      .ferr-groups { grid-template-columns: repeat(2,1fr); }
+      .sources-grid { grid-template-columns: repeat(2,1fr); }
+      .ferr-card-body { padding: 28px 24px; }
+      .ferr-card-header { padding: 28px 24px; }
+    }
+    @media (max-width: 600px) {
+      .ferr-groups { grid-template-columns: repeat(2,1fr); }
+      .sources-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ─────────────────────────────────────────────────── -->
+<nav class="nav scrolled" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="logo.jpg" alt="O3-BioTec">
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="servicos.html">Serviços</a>
+      <a href="index.html#legislacao">Legislação</a>
+      <a href="ferramentas.html" class="active">Ferramentas</a>
+      <a href="servicos.html#contato" class="nav-cta">Fale Conosco</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ── INTRO ──────────────────────────────────────────────────── -->
+<section class="ferr-intro">
+  <div class="ferr-intro-bg"></div>
+  <div class="ferr-intro-grid"></div>
+  <div class="container" style="position:relative;z-index:2">
+    <div class="section-label" style="color:var(--lime-light);background:rgba(141,198,63,.1);border-color:rgba(141,198,63,.25)">Ferramentas Digitais</div>
+    <h1 class="page-hero-title">Tecnologia gratuita para a <em style="color:var(--lime-light)">nutrição científica.</em></h1>
+    <p class="page-hero-sub">Ferramentas desenvolvidas pela O3-BioTec para apoiar profissionais, pesquisadores e a indústria alimentar com dados nutricionais confiáveis e de fácil acesso.</p>
+  </div>
+</section>
+
+<!-- ── FERRAMENTAS SECTION ────────────────────────────────────── -->
+<section class="section" style="background:var(--navy);padding-top:60px">
+  <div class="container">
+
+    <!-- BioNutri Mar -->
+    <div class="ferr-card-main reveal">
+      <div class="ferr-card-header">
+        <div>
+          <div class="ferramenta-badge" style="margin-bottom:12px">🌊 Ferramenta Ativa</div>
+          <h2 style="font-size:clamp(24px,3vw,38px);font-weight:700;color:var(--white);margin-bottom:8px">BioNutri Mar</h2>
+          <p style="font-size:16px;color:rgba(255,255,255,.6)">Banco de Dados de Macronutrientes de Organismos Marinhos Brasileiros</p>
+        </div>
+        <a href="https://bit.ly/41NZcnp" target="_blank" rel="noopener" class="btn-access">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Acessar o BioNutri Mar
+        </a>
+      </div>
+      <div class="ferr-card-body">
+
+        <!-- Métricas -->
+        <div class="ferr-feature-grid">
+          <div class="ferr-feature">
+            <div class="ferr-feature-icon">🐟</div>
+            <div class="ferr-feature-val">94</div>
+            <div class="ferr-feature-label">Organismos catalogados</div>
+          </div>
+          <div class="ferr-feature">
+            <div class="ferr-feature-icon">🔬</div>
+            <div class="ferr-feature-val">4</div>
+            <div class="ferr-feature-label">Macronutrientes analisados</div>
+          </div>
+          <div class="ferr-feature">
+            <div class="ferr-feature-icon">📚</div>
+            <div class="ferr-feature-val">4</div>
+            <div class="ferr-feature-label">Bases de dados científicas</div>
+          </div>
+          <div class="ferr-feature">
+            <div class="ferr-feature-icon">🆓</div>
+            <div class="ferr-feature-val">100%</div>
+            <div class="ferr-feature-label">Acesso gratuito</div>
+          </div>
+        </div>
+
+        <!-- Sobre -->
+        <p style="font-size:16px;color:rgba(255,255,255,.7);line-height:1.75;margin-bottom:28px">
+          O <strong style="color:var(--white)">BioNutri Mar</strong> é uma plataforma de consulta nutricional desenvolvida pela O3-BioTec que reúne dados de composição de alimentos marinhos do litoral brasileiro — peixes, algas, cefalópodes e crustáceos. Os dados são cruzados com as bases oficiais TACO (UNICAMP), TBCA e USDA FoodData Central, garantindo confiabilidade científica para uso profissional.
+        </p>
+
+        <!-- Grupos de organismos -->
+        <h3 style="font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:16px">Grupos de Organismos</h3>
+        <div class="ferr-groups">
+          <div class="ferr-group">
+            <div class="ferr-group-icon">🐟</div>
+            <div class="ferr-group-name">Peixes</div>
+            <div class="ferr-group-count">62</div>
+          </div>
+          <div class="ferr-group">
+            <div class="ferr-group-icon">🌿</div>
+            <div class="ferr-group-name">Algas</div>
+            <div class="ferr-group-count">15</div>
+          </div>
+          <div class="ferr-group">
+            <div class="ferr-group-icon">🦑</div>
+            <div class="ferr-group-name">Cefalópodes</div>
+            <div class="ferr-group-count">10</div>
+          </div>
+          <div class="ferr-group">
+            <div class="ferr-group-icon">🦞</div>
+            <div class="ferr-group-name">Crustáceos</div>
+            <div class="ferr-group-count">7</div>
+          </div>
+        </div>
+
+        <!-- Fontes -->
+        <h3 style="font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:16px">Fontes de Dados</h3>
+        <div class="sources-grid">
+          <div class="source-badge">
+            <div class="source-badge-name">TACO</div>
+            <div class="source-badge-desc">UNICAMP / NEPA — 4ª edição</div>
+          </div>
+          <div class="source-badge">
+            <div class="source-badge-name">TBCA</div>
+            <div class="source-badge-desc">tbca.net.br — USP</div>
+          </div>
+          <div class="source-badge">
+            <div class="source-badge-name">USDA</div>
+            <div class="source-badge-desc">FoodData Central SR Legacy</div>
+          </div>
+          <div class="source-badge">
+            <div class="source-badge-name">Literatura</div>
+            <div class="source-badge-desc">Scielo, PubMed, Teses BR</div>
+          </div>
+        </div>
+
+        <!-- Funcionalidades -->
+        <h3 style="font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:16px">Funcionalidades</h3>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:40px">
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(255,255,255,.65)">
+            <span style="color:var(--lime)">✓</span> Busca por nome comum ou científico
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(255,255,255,.65)">
+            <span style="color:var(--lime)">✓</span> Filtro por família taxonômica
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(255,255,255,.65)">
+            <span style="color:var(--lime)">✓</span> Slider de proteínas e carboidratos
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(255,255,255,.65)">
+            <span style="color:var(--lime)">✓</span> Gráficos comparativos (barras / dispersão / radar)
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(255,255,255,.65)">
+            <span style="color:var(--lime)">✓</span> Comparação entre 2 espécies
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(255,255,255,.65)">
+            <span style="color:var(--lime)">✓</span> Destaques por objetivo dietético
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(255,255,255,.65)">
+            <span style="color:var(--lime)">✓</span> Filtro por fonte de dados
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(255,255,255,.65)">
+            <span style="color:var(--lime)">✓</span> Indicadores de confiança dos dados
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(255,255,255,.65)">
+            <span style="color:var(--lime)">✓</span> Modo claro e escuro
+          </div>
+        </div>
+
+        <div style="display:flex;gap:16px;flex-wrap:wrap">
+          <a href="https://bit.ly/41NZcnp" target="_blank" rel="noopener" class="btn-access">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Acessar Agora — Gratuito
+          </a>
+          <a href="servicos.html#contato" class="btn btn-outline-white" style="padding:18px 32px">Solicitar Dados Personalizados</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Em breve -->
+    <div class="coming-soon reveal" style="margin-top:28px">
+      <div class="coming-soon-icon">🚀</div>
+      <div class="coming-soon-title">Mais ferramentas em desenvolvimento</div>
+      <p class="coming-soon-text">Em breve: calculadora de rotulagem nutricional, banco de dados de aditivos alimentares e ferramenta de avaliação de shelf-life.<br>Fique atento às novidades da O3-BioTec.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── CTA ────────────────────────────────────────────────────── -->
+<section class="cta-banner">
+  <div class="container">
+    <div class="section-label">Parceria Científica</div>
+    <h2 class="cta-title">Quer contribuir com dados ou sugerir novas ferramentas?</h2>
+    <p class="cta-sub">Entre em contato com nossa equipe técnica. Valorizamos parcerias com laboratórios, universidades e indústrias.</p>
+    <div class="cta-actions">
+      <a href="mailto:molgran@hotmail.com" class="btn btn-white">ENTRAR EM CONTATO →</a>
+      <a href="servicos.html" class="btn btn-outline-white">Ver Serviços</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <img src="logo.jpg" alt="O3-BioTec">
+        <p class="footer-desc">Consultoria especializada em biotecnologia alimentar, adequação normativa e análise laboratorial para a indústria de alimentos no Brasil.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Navegação</div>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="servicos.html">Serviços</a></li>
+          <li><a href="index.html#legislacao">Legislação</a></li>
+          <li><a href="ferramentas.html">Ferramentas</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Ferramentas</div>
+        <ul class="footer-links">
+          <li><a href="https://bit.ly/41NZcnp" target="_blank">BioNutri Mar</a></li>
+          <li><a href="#">Calculadora Nutricional (em breve)</a></li>
+          <li><a href="#">Avaliador de Shelf-life (em breve)</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Contato</div>
+        <div class="footer-contact">
+          <div class="footer-contact-item">
+            <div class="footer-contact-icon">📍</div>
+            <div class="footer-contact-text"><strong>Localização</strong>Cabo Frio, RJ — Brasil</div>
+          </div>
+          <div class="footer-contact-item">
+            <div class="footer-contact-icon">✉️</div>
+            <div class="footer-contact-text"><strong>E-mail</strong><a href="mailto:molgran@hotmail.com" style="color:rgba(255,255,255,.55)">molgran@hotmail.com</a></div>
+          </div>
+          <div class="footer-contact-item">
+            <div class="footer-contact-icon">📞</div>
+            <div class="footer-contact-text"><strong>Telefone</strong><a href="tel:+5522981024529" style="color:rgba(255,255,255,.55)">(22) 98102-4529</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 O3-BioTec — Consultoria em Biotecnologia Alimentar. Cabo Frio, RJ.</p>
+      <div class="footer-bottom-links">
+        <a href="servicos.html#contato">Contato</a>
+        <a href="index.html">Home</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
